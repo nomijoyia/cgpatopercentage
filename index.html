@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert your CGPA to percentage instantly with our free calculator. Complete reference tables for 4.0, 5.0, and 10.0 grading scales.">
+    <meta name="keywords" content="CGPA to percentage, GPA converter, academic calculator, grade conversion, education tool, CGPA table">
+    <title>CGPA to Percentage Calculator | EduConvert</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Premium Color Scheme & Base Styles */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --accent: #7c3aed;
+            --light: #ffffff;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #f1f5f9;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        /* Header Styles - Professional & Clean */
+        header {
+            background: var(--light);
+            box-shadow: var(--shadow);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .logo i {
+            font-size: 1.6rem;
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.8rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.3rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Calculator Styles */
+        .calculator-container {
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        .calculator-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            transition: var(--transition);
+            background: white;
+            font-family: inherit;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+            font-family: inherit;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.4);
+        }
+
+        .result-container {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: var(--radius);
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .result-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 0.5rem 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .result-text {
+            color: var(--gray);
+            font-size: 1.05rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 0 5%;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Features Section */
+        .features-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 5%;
+        }
+
+        .features-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .feature-desc {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        /* Scale Tables Section */
+        .scale-tables {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 5%;
+        }
+
+        .scale-title {
+            text-align: center;
+            margin: 2rem 0 1.5rem;
+            font-size: 2rem;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .scale-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .scale-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow);
+        }
+
+        .scale-header {
+            text-align: center;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        /* Table Styles */
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+
+        .content-table th {
+            background: var(--primary);
+            color: white;
+            padding: 0.9rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .content-table td {
+            padding: 0.9rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .content-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .content-table tr:nth-child(even) {
+            background-color: rgba(241, 245, 249, 0.7);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        /* Full Width Content Box - Moved to Bottom */
+        .content-box {
+            width: 100%;
+            background: var(--light);
+            padding: 3rem 5%;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            font-size: 2.2rem;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+            transition: var(--transition);
+        }
+
+        .content-section:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-header {
+            padding: 1.2rem 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            padding: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--gray);
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Background Colors for Sections */
+        .section-1 .section-header {
+            background-color: #dbeafe;
+            color: var(--primary);
+        }
+
+        .section-2 .section-header {
+            background-color: #ede9fe;
+            color: var(--secondary);
+        }
+
+        .section-3 .section-header {
+            background-color: #f3e8ff;
+            color: var(--accent);
+        }
+
+        .section-4 .section-header {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        .section-5 .section-header {
+            background-color: #ffedd5;
+            color: #ea580c;
+        }
+
+        /* Emoji Styles */
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.8rem;
+            color: var(--gray);
+            font-size: 0.95rem;
+            background: var(--light);
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            nav ul {
+                gap: 1.2rem;
+                margin-top: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+            
+            .calculator-container {
+                padding: 1.8rem;
+            }
+            
+            .result-value {
+                font-size: 1.8rem;
+            }
+            
+            .scale-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .calculator-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-table {
+                font-size: 0.85rem;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header - Professional Design -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduConvert</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Accurate CGPA to Percentage Conversion</h1>
+        <p>Convert your academic grades instantly with our reliable calculator. Complete reference tables for all grading scales.</p>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="calculator-container">
+        <h2 class="calculator-title">CGPA to Percentage Calculator</h2>
+        <div class="input-group">
+            <label for="scale">Select Grading Scale:</label>
+            <select id="scale">
+                <option value="10">10.0 Scale</option>
+                <option value="5">5.0 Scale</option>
+                <option value="4">4.0 Scale</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="cgpa">Enter Your CGPA:</label>
+            <input type="number" id="cgpa" placeholder="e.g., 8.5" min="0" step="0.01">
+        </div>
+        <button id="convertBtn" class="btn">Convert to Percentage</button>
+        <div id="result" class="result-container">
+            <div class="result-text">Your percentage is:</div>
+            <div id="percentage" class="result-value">--%</div>
+            <div class="result-text" id="formulaText"></div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stat-card">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Grading Scales</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">10K+</div>
+            <div class="stat-label">Conversions Daily</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Available</div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="features-title">Why Use Our Calculator? ✨</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Instant Results</h3>
+                <p class="feature-desc">Get your percentage in seconds with our fast calculator.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="feature-title">100% Accurate</h3>
+                <p class="feature-desc">Uses standard formulas from major educational boards worldwide.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="feature-title">Mobile Friendly</h3>
+                <p class="feature-desc">Works perfectly on all devices - phone, tablet, or desktop.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="feature-title">Secure & Private</h3>
+                <p class="feature-desc">Your data never leaves your device. Completely private.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3 class="feature-title">Complete Reference Tables</h3>
+                <p class="feature-desc">Access full conversion tables for all grading scales.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3 class="feature-title">Global Standards</h3>
+                <p class="feature-desc">Follows international conversion standards for accuracy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scale Tables Section -->
+    <section class="scale-tables">
+        <h2 class="scale-title">Complete CGPA to Percentage Conversion Tables 📈</h2>
+        
+        <div class="scale-grid">
+            <!-- 10.0 Scale Table -->
+            <div class="scale-card">
+                <div class="scale-header">10.0 Scale Conversion</div>
+                <div class="table-container">
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>CGPA</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>10.0 CGPA in percentage</td><td>95%-100%</td></tr>
+                            <tr><td>9.9 CGPA in percentage</td><td>94.05%</td></tr>
+                            <tr><td>9.8 CGPA in percentage</td><td>93.10%</td></tr>
+                            <tr><td>9.7 CGPA in percentage</td><td>92.15%</td></tr>
+                            <tr><td>9.6 CGPA in percentage</td><td>91.20%</td></tr>
+                            <tr><td>9.5 CGPA in percentage</td><td>90.25%</td></tr>
+                            <tr><td>9.4 CGPA in percentage</td><td>89.30%</td></tr>
+                            <tr><td>9.3 CGPA in percentage</td><td>88.35%</td></tr>
+                            <tr><td>9.2 CGPA in percentage</td><td>87.40%</td></tr>
+                            <tr><td>9.1 CGPA in percentage</td><td>86.45%</td></tr>
+                            <tr><td>9.0 CGPA in percentage</td><td>85.50%</td></tr>
+                            <tr><td>8.9 CGPA in percentage</td><td>84.55%</td></tr>
+                            <tr><td>8.8 CGPA in percentage</td><td>83.60%</td></tr>
+                            <tr><td>8.7 CGPA in percentage</td><td>82.65%</td></tr>
+                            <tr><td>8.6 CGPA in percentage</td><td>81.70%</td></tr>
+                            <tr><td>8.5 CGPA in percentage</td><td>80.75%</td></tr>
+                            <tr><td>8.4 CGPA in percentage</td><td>79.80%</td></tr>
+                            <tr><td>8.3 CGPA in percentage</td><td>78.85%</td></tr>
+                            <tr><td>8.2 CGPA in percentage</td><td>77.90%</td></tr>
+                            <tr><td>8.1 CGPA in percentage</td><td>76.95%</td></tr>
+                            <tr><td>8.0 CGPA in percentage</td><td>76.00%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 5.0 Scale Table -->
+            <div class="scale-card">
+                <div class="scale-header">5.0 Scale Conversion</div>
+                <div class="table-container">
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>CGPA</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>5.0 CGPA in percentage</td><td>100.00%</td></tr>
+                            <tr><td>4.9 CGPA in percentage</td><td>98.00%</td></tr>
+                            <tr><td>4.8 CGPA in percentage</td><td>96.00%</td></tr>
+                            <tr><td>4.7 CGPA in percentage</td><td>94.00%</td></tr>
+                            <tr><td>4.6 CGPA in percentage</td><td>92.00%</td></tr>
+                            <tr><td>4.5 CGPA in percentage</td><td>90.00%</td></tr>
+                            <tr><td>4.4 CGPA in percentage</td><td>88.00%</td></tr>
+                            <tr><td>4.3 CGPA in percentage</td><td>86.00%</td></tr>
+                            <tr><td>4.2 CGPA in percentage</td><td>84.00%</td></tr>
+                            <tr><td>4.1 CGPA in percentage</td><td>82.00%</td></tr>
+                            <tr><td>4.0 CGPA in percentage</td><td>80.00%</td></tr>
+                            <tr><td>3.9 CGPA in percentage</td><td>78.00%</td></tr>
+                            <tr><td>3.8 CGPA in percentage</td><td>76.00%</td></tr>
+                            <tr><td>3.7 CGPA in percentage</td><td>74.00%</td></tr>
+                            <tr><td>3.6 CGPA in percentage</td><td>72.00%</td></tr>
+                            <tr><td>3.5 CGPA in percentage</td><td>70.00%</td></tr>
+                            <tr><td>3.4 CGPA in percentage</td><td>68.00%</td></tr>
+                            <tr><td>3.3 CGPA in percentage</td><td>66.00%</td></tr>
+                            <tr><td>3.2 CGPA in percentage</td><td>64.00%</td></tr>
+                            <tr><td>3.1 CGPA in percentage</td><td>62.00%</td></tr>
+                            <tr><td>3.0 CGPA in percentage</td><td>60.00%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- 4.0 Scale Table -->
+            <div class="scale-card">
+                <div class="scale-header">4.0 Scale Conversion</div>
+                <div class="table-container">
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>CGPA</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>4.0 CGPA in percentage</td><td>100.00%</td></tr>
+                            <tr><td>3.9 CGPA in percentage</td><td>97.50%</td></tr>
+                            <tr><td>3.8 CGPA in percentage</td><td>95.00%</td></tr>
+                            <tr><td>3.7 CGPA in percentage</td><td>92.50%</td></tr>
+                            <tr><td>3.6 CGPA in percentage</td><td>90.00%</td></tr>
+                            <tr><td>3.5 CGPA in percentage</td><td>87.50%</td></tr>
+                            <tr><td>3.4 CGPA in percentage</td><td>85.00%</td></tr>
+                            <tr><td>3.3 CGPA in percentage</td><td>82.50%</td></tr>
+                            <tr><td>3.2 CGPA in percentage</td><td>80.00%</td></tr>
+                            <tr><td>3.1 CGPA in percentage</td><td>77.50%</td></tr>
+                            <tr><td>3.0 CGPA in percentage</td><td>75.00%</td></tr>
+                            <tr><td>2.9 CGPA in percentage</td><td>72.50%</td></tr>
+                            <tr><td>2.8 CGPA in percentage</td><td>70.00%</td></tr>
+                            <tr><td>2.7 CGPA in percentage</td><td>67.50%</td></tr>
+                            <tr><td>2.6 CGPA in percentage</td><td>65.00%</td></tr>
+                            <tr><td>2.5 CGPA in percentage</td><td>62.50%</td></tr>
+                            <tr><td>2.4 CGPA in percentage</td><td>60.00%</td></tr>
+                            <tr><td>2.3 CGPA in percentage</td><td>57.50%</td></tr>
+                            <tr><td>2.2 CGPA in percentage</td><td>55.00%</td></tr>
+                            <tr><td>2.1 CGPA in percentage</td><td>52.50%</td></tr>
+                            <tr><td>2.0 CGPA in percentage</td><td>50.00%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Width Content Box - Moved to Bottom -->
+    <section class="content-box">
+        <div class="content-container">
+            <h2 class="content-title">Understanding CGPA to Percentage Conversion 📊</h2>
+            
+            <!-- Section 1 -->
+            <div class="content-section section-1">
+                <div class="section-header">
+                    <i class="fas fa-graduation-cap"></i>
+                    What is CGPA? 🎓
+                </div>
+                <div class="section-content">
+                    <p>CGPA stands for Cumulative Grade Point Average. It measures your overall academic performance across all subjects.</p>
+                    <p>Instead of individual subject percentages, CGPA gives you one simple number. This makes comparisons easier between students.</p>
+                    <p>Most universities use CGPA to evaluate student performance. It's a standardized way to show your academic achievements.</p>
+                </div>
+            </div>
+            
+            <!-- Section 2 -->
+            <div class="content-section section-2">
+                <div class="section-header">
+                    <i class="fas fa-sync-alt"></i>
+                    Why Convert CGPA to Percentage? 💡
+                </div>
+                <div class="section-content">
+                    <p>Many institutions still use percentage systems for evaluations. Converting helps you meet their requirements easily.</p>
+                    <p>Job applications often ask for percentage scores. Scholarship committees need percentages to compare applicants fairly.</p>
+                    <p>Understanding your percentage helps you set better academic goals. It gives you a familiar way to measure success.</p>
+                    <p>Some countries prefer percentage over CGPA. Converting makes your scores understandable worldwide. 🌍</p>
+                </div>
+            </div>
+            
+            <!-- Section 3 -->
+            <div class="content-section section-3">
+                <div class="section-header">
+                    <i class="fas fa-calculator"></i>
+                    Conversion Formulas Explained ✨
+                </div>
+                <div class="section-content">
+                    <p>Different grading scales use different conversion formulas. Here are the most common ones used worldwide:</p>
+                    
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>Grading Scale</th>
+                                <th>Conversion Formula</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10.0 Scale</td>
+                                <td>Percentage = CGPA × 9.5</td>
+                                <td>8.5 CGPA = 80.75%</td>
+                            </tr>
+                            <tr>
+                                <td>5.0 Scale</td>
+                                <td>Percentage = (CGPA ÷ 5) × 100</td>
+                                <td>4.2 CGPA = 84%</td>
+                            </tr>
+                            <tr>
+                                <td>4.0 Scale</td>
+                                <td>Percentage = (CGPA ÷ 4) × 100</td>
+                                <td>3.6 CGPA = 90%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p>The 10-point scale formula comes from CBSE in India. It's based on the average marks of top students.</p>
+                    <p>Other scales use simple proportional conversion methods. Always check your university's specific requirements first. ✅</p>
+                </div>
+            </div>
+            
+            <!-- Section 4 -->
+            <div class="content-section section-4">
+                <div class="section-header">
+                    <i class="fas fa-lightbulb"></i>
+                    Important Tips & Notes 📝
+                </div>
+                <div class="section-content">
+                    <p>Always verify conversion formulas with your institution. Some universities have their own special methods.</p>
+                    <p>Mumbai University uses CGPA × 7.1 + 12 for conversion. Technical institutions might have different approaches too.</p>
+                    <p>When submitting converted scores, mention your grading scale. This helps evaluators understand your results better.</p>
+                    <p>For uncommon scales like 7.0 or 12.0, contact the receiving institution. They can guide you properly. 📞</p>
+                    <p>Conversion gives an approximation, not an exact equivalent. Different grading systems have unique characteristics.</p>
+                </div>
+            </div>
+            
+            <!-- Section 5 -->
+            <div class="content-section section-5">
+                <div class="section-header">
+                    <i class="fas fa-rocket"></i>
+                    Final Thoughts & Next Steps 🚀
+                </div>
+                <div class="section-content">
+                    <p>CGPA conversion is essential for global academic opportunities. It opens doors to international universities.</p>
+                    <p>Our calculator provides quick and accurate conversions. Use it for all your application needs.</p>
+                    <p>Remember that your value goes beyond numbers. Focus on learning and skill development always.</p>
+                    <p>Double-check converted scores before important submissions. When in doubt, consult your academic advisor.</p>
+                    <p>Bookmark this page for future conversions. We're here to support your academic journey! 💯</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 EduConvert | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Calculator Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const scaleSelect = document.getElementById('scale');
+            const cgpaInput = document.getElementById('cgpa');
+            const convertBtn = document.getElementById('convertBtn');
+            const resultContainer = document.getElementById('result');
+            const percentageElement = document.getElementById('percentage');
+            const formulaText = document.getElementById('formulaText');
+            
+            // Conversion formulas
+            const formulas = {
+                '10': { multiplier: 9.5, text: 'Percentage = CGPA × 9.5' },
+                '5': { multiplier: 20, text: 'Percentage = (CGPA ÷ 5) × 100' },
+                '4': { multiplier: 25, text: 'Percentage = (CGPA ÷ 4) × 100' }
+            };
+            
+            // Convert function
+            function convertCGPA() {
+                const scale = scaleSelect.value;
+                const cgpa = parseFloat(cgpaInput.value);
+                
+                // Validation
+                if (isNaN(cgpa) || cgpa < 0) {
+                    alert('Please enter a valid CGPA value');
+                    return;
+                }
+                
+                // Get max CGPA for validation
+                const maxCGPA = parseFloat(scale);
+                if (cgpa > maxCGPA) {
+                    alert(`CGPA cannot exceed ${maxCGPA} for ${scale}-point scale`);
+                    return;
+                }
+                
+                // Calculate percentage
+                let percentage;
+                if (scale === '10') {
+                    percentage = cgpa * 9.5;
+                } else {
+                    percentage = (cgpa / maxCGPA) * 100;
+                }
+                
+                // Display result
+                percentageElement.textContent = percentage.toFixed(2) + '%';
+                formulaText.textContent = formulas[scale].text;
+                
+                // Show result with animation
+                resultContainer.classList.remove('show');
+                void resultContainer.offsetWidth; // Trigger reflow
+                resultContainer.classList.add('show');
+            }
+            
+            // Event listeners
+            convertBtn.addEventListener('click', convertCGPA);
+            
+            // Allow Enter key to trigger conversion
+            cgpaInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    convertCGPA();
+                }
+            });
+            
+            // Initialize with example
+            cgpaInput.value = '8.5';
+            convertCGPA();
+        });
+    </script>
+</body>
+</html>
+
