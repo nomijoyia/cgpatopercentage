@@ -1,0 +1,22 @@
+Recommended:
+Point ALIAS, ANAME, or flattened CNAME record to apex-loadbalancer.netlify.com
+If your DNS provider supports ALIAS, ANAME, or flattened CNAME records, use this recommended configuration, which is more resilient than the fallback option.
+
+Create an ALIAS, ANAME, or flattened CNAME record for cgpatopercentagee.com pointing to our load balancer at apex-loadbalancer.netlify.com.
+
+cgpatopercentagee.com ALIAS apex-loadbalancer.netlify.com
+Fallback:
+Point A record to 75.2.60.5
+If your DNS provider does not support ALIAS, ANAME, or flattened CNAME records, use this fallback option.
+
+Create an A record for cgpatopercentagee.com pointing to our load balancer’s IP address 75.2.60.5.
+
+cgpatopercentagee.com A 75.2.60.5
+Warning! With your current configuration of this apex domain being your primary custom domain, you won’t benefit from the full advantages of a CDN.
+
+We recommend setting www.cgpatopercentagee.com as your primary custom domain.
+
+Use Netlify DNS
+To make sure you get the best possible performance, use Netlify’s high-performance, managed DNS service. Netlify DNS automatically creates optimal records for all hostnames, and also allows easier use of our branch subdomain feature.
+
+Set up Netlify DNS for cgpatopercentagee.com
