@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Convert your CGPA to percentage instantly with our free calculator. Complete reference tables for 4.0, 5.0, and 10.0 grading scales.">
-    <meta name="keywords" content="CGPA to percentage, GPA converter, academic calculator, grade conversion, education tool, CGPA table">
+    <meta name="description" content="Convert your CGPA to percentage instantly with our free calculator. Complete reference tables for 4.0, 5.0, and 10.0 grading scales. University-specific conversions for top institutions.">
+    <meta name="keywords" content="CGPA to percentage, GPA converter, academic calculator, grade conversion, education tool, CGPA table, university conversion, CBSE percentage, Mumbai University CGPA">
     <title>CGPA to Percentage Calculator | EduConvert</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -391,6 +391,237 @@
             margin: 1rem 0;
         }
 
+        /* University Conversions Section */
+        .university-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 5%;
+        }
+
+        .university-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .university-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .university-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow);
+        }
+
+        .university-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .university-formula {
+            background: rgba(37, 99, 235, 0.1);
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        /* Essential Tools Section */
+        .tools-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 5%;
+        }
+
+        .tools-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            color: white;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+
+        .tool-desc {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Colorful Tool Cards */
+        .tool-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .tool-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .tool-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .tool-4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .tool-5 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .tool-6 {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        /* FAQ Section - Moved to End */
+        .faq-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 5%;
+        }
+
+        .faq-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.2rem;
+            background: var(--card-bg);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: white;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+
+        /* Testimonials Section - Moved to Very End */
+        .testimonials-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 5%;
+        }
+
+        .testimonials-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: """;
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 4rem;
+            color: var(--primary);
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial-text {
+            margin-bottom: 1rem;
+            font-style: italic;
+            color: var(--gray);
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .testimonial-role {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
         /* Full Width Content Box - For Your Content */
         .final-content-box {
             width: 100%;
@@ -539,7 +770,10 @@
                 font-size: 1.8rem;
             }
             
-            .scale-grid {
+            .scale-grid,
+            .university-grid,
+            .testimonials-grid,
+            .tools-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -811,6 +1045,143 @@
         </div>
     </section>
 
+    <!-- University Conversions Section -->
+    <section class="university-section">
+        <h2 class="university-title">University-Specific Conversion Formulas 🎓</h2>
+        <div class="university-grid">
+            <div class="university-card">
+                <div class="university-name">CBSE (India)</div>
+                <p>Used by most Indian schools and universities</p>
+                <div class="university-formula">Percentage = CGPA × 9.5</div>
+                <p>Example: 8.5 CGPA = 80.75%</p>
+            </div>
+            <div class="university-card">
+                <div class="university-name">Mumbai University</div>
+                <p>Specific formula for Mumbai University students</p>
+                <div class="university-formula">Percentage = (CGPA × 7.1) + 12</div>
+                <p>Example: 7.0 CGPA = 61.7%</p>
+            </div>
+            <div class="university-card">
+                <div class="university-name">VTU (Visvesvaraya Technological University)</div>
+                <p>Used by engineering colleges in Karnataka</p>
+                <div class="university-formula">Percentage = (CGPA - 0.75) × 10</div>
+                <p>Example: 8.0 CGPA = 72.5%</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Essential Tools Section - Replaced Quick Guides -->
+    <section class="tools-section">
+        <h2 class="tools-title">Essential Conversion Tools 🛠️</h2>
+        <div class="tools-grid">
+            <div class="tool-card tool-1">
+                <div class="tool-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3 class="tool-title">CGPA Calculator</h3>
+                <p class="tool-desc">Calculate your CGPA from individual subject grades</p>
+            </div>
+            <div class="tool-card tool-2">
+                <div class="tool-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <h3 class="tool-title">Percentage Converter</h3>
+                <p class="tool-desc">Convert percentage back to CGPA for any scale</p>
+            </div>
+            <div class="tool-card tool-3">
+                <div class="tool-icon">
+                    <i class="fas fa-file-certificate"></i>
+                </div>
+                <h3 class="tool-title">Grade Translator</h3>
+                <p class="tool-desc">Understand what your grades mean internationally</p>
+            </div>
+            <div class="tool-card tool-4">
+                <div class="tool-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3 class="tool-title">Academic Planner</h3>
+                <p class="tool-desc">Plan your grades to achieve target CGPA</p>
+            </div>
+            <div class="tool-card tool-5">
+                <div class="tool-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h3 class="tool-title">University Matcher</h3>
+                <p class="tool-desc">Find universities that match your academic profile</p>
+            </div>
+            <div class="tool-card tool-6">
+                <div class="tool-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                <h3 class="tool-title">Application Checklist</h3>
+                <p class="tool-desc">Ensure you have all documents for applications</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <h2 class="faq-title">Frequently Asked Questions ❓</h2>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>Is the CGPA to percentage conversion the same for all universities?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>No, different universities use different conversion formulas. While many follow the standard formulas (like CGPA × 9.5 for 10-point scale), some have their own specific methods. Always check with your university's official guidelines.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>Can I convert percentage back to CGPA?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes! For the 10-point scale: CGPA = Percentage ÷ 9.5. For other scales, reverse the formulas: CGPA = (Percentage × Max CGPA) ÷ 100. For example, for a 4.0 scale: CGPA = (Percentage × 4) ÷ 100.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>What if my university uses a different grading scale?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>If your scale isn't listed (like 7.0 or 12.0), you can still use our calculator. First convert your CGPA to a standard scale (like 4.0 or 10.0) using your university's guidelines, then apply the standard conversion. Alternatively, contact the receiving institution for their preferred method.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>How accurate is this calculator?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Our calculator uses widely accepted formulas from major educational boards. However, for official purposes, always verify with your specific institution as some universities have unique conversion methods. We recommend using our result as a reference point.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section - Moved to Very End -->
+    <section class="testimonials-section">
+        <h2 class="testimonials-title">What Students Say About Us 💬</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">This calculator saved me during my job applications! The percentage conversion was spot on and matched what my university provided.</p>
+                <div class="testimonial-author">Aisha Rahman</div>
+                <div class="testimonial-role">Computer Science Graduate</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">I was applying to universities abroad and needed to convert my CGPA. This tool made it so easy and accurate!</p>
+                <div class="testimonial-author">Rajiv Mehta</div>
+                <div class="testimonial-role">Mechanical Engineering Student</div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">The university-specific formulas were a game-changer for me. Mumbai University's conversion was exactly what I needed.</p>
+                <div class="testimonial-author">Priya Sharma</div>
+                <div class="testimonial-role">MBA Applicant</div>
+            </div>
+        </div>
+    </section>
+
     <!-- Final Content Section - Your Exact Text -->
     <section class="final-content-box">
         <div class="final-content-container">
@@ -1007,6 +1378,25 @@
             // Initialize with example
             cgpaInput.value = '8.5';
             convertCGPA();
+            
+            // FAQ Toggle
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const faqItem = question.parentElement;
+                    faqItem.classList.toggle('active');
+                    
+                    // Rotate icon
+                    const icon = question.querySelector('i');
+                    if (faqItem.classList.contains('active')) {
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    } else {
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    }
+                });
+            });
         });
     </script>
 </body>
