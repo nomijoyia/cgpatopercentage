@@ -1,42 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Blogs</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | EduConvert</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: #f8f9fa;
+      background: #f4f6f9;
       margin: 0;
-      padding: 40px 20px;
-      color: #333;
+      padding: 0;
     }
 
+    /* ===== Header ===== */
+    header {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+
+    .logo {
+      text-decoration: none;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #007bff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo i {
+      color: #007bff;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: #007bff;
+    }
+
+    /* ===== Blog Section ===== */
     h1 {
       text-align: center;
-      margin-bottom: 40px;
-      color: #1e88e5;
+      color: #007bff;
+      margin-top: 50px;
+      font-size: 2.3rem;
     }
 
-    .blog-grid {
+    .blog-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 25px;
       max-width: 1100px;
-      margin: 0 auto;
+      margin: 50px auto;
+      padding: 0 20px;
     }
 
     .blog-card {
       background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 15px;
       overflow: hidden;
-      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .blog-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
 
     .blog-card img {
@@ -46,73 +104,99 @@
     }
 
     .blog-content {
-      padding: 15px 20px 25px;
-      text-align: center;
+      padding: 20px;
+    }
+
+    .blog-content h3 {
+      font-size: 1.2rem;
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+
+    .blog-content p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.6;
     }
 
     .blog-content a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #007bff;
       text-decoration: none;
-      color: #1e88e5;
       font-weight: 600;
-      font-size: 18px;
-      transition: color 0.3s ease;
     }
 
     .blog-content a:hover {
-      color: #1565c0;
+      text-decoration: underline;
     }
 
     .back-home {
-      display: block;
       text-align: center;
-      margin-top: 50px;
+      margin: 40px 0;
+    }
+
+    .back-home a {
+      color: #007bff;
       text-decoration: none;
-      color: #1e88e5;
-      font-weight: 500;
+      font-weight: 600;
+    }
+
+    .back-home a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
+  <header>
+    <div class="header-container">
+      <a href="#" class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <span>EduConvert</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
   <h1>Latest Blog Posts</h1>
 
-  <div class="blog-grid" id="blogList"></div>
+  <div class="blog-container">
+    <div class="blog-card">
+      <img src="images/blog1.jpg" alt="My First Blog">
+      <div class="blog-content">
+        <h3>My First Blog</h3>
+        <p>How I started my blogging journey and what I learned along the way.</p>
+        <a href="blogs/blog1.html">Read More →</a>
+      </div>
+    </div>
 
-  <a href="index.html" class="back-home">← Back to Home</a>
+    <div class="blog-card">
+      <img src="images/blog2.jpg" alt="How I Built My Website">
+      <div class="blog-content">
+        <h3>How I Built My Website</h3>
+        <p>A step-by-step breakdown of how I designed and deployed my first portfolio site.</p>
+        <a href="blogs/blog2.html">Read More →</a>
+      </div>
+    </div>
 
-  <script>
-    // 👇 Apne blogs yahan list karo
-    const blogs = [
-      {
-        title: "My First Blog",
-        file: "blog1.html",
-        image: "images/blog1.jpg"
-      },
-      {
-        title: "How I Built My Website",
-        file: "blog2.html",
-        image: "images/blog2.jpg"
-      },
-      {
-        title: "Best Digital Marketing Tips",
-        file: "blog3.html",
-        image: "images/blog3.jpg"
-      }
-    ];
+    <div class="blog-card">
+      <img src="images/blog3.jpg" alt="Best Digital Marketing Tips">
+      <div class="blog-content">
+        <h3>Best Digital Marketing Tips</h3>
+        <p>Top strategies for creators and entrepreneurs to grow their online audience.</p>
+        <a href="blogs/blog3.html">Read More →</a>
+      </div>
+    </div>
+  </div>
 
-    const list = document.getElementById('blogList');
-    blogs.forEach(blog => {
-      const card = document.createElement('div');
-      card.classList.add('blog-card');
-      card.innerHTML = `
-        <a href="blogs/${blog.file}">
-          <img src="${blog.image}" alt="${blog.title}">
-          <div class="blog-content">
-            <a href="blogs/${blog.file}">${blog.title}</a>
-          </div>
-        </a>
-      `;
-      list.appendChild(card);
-    });
-  </script>
+  <div class="back-home">
+    <a href="index.html">← Back to Home</a>
+  </div>
 </body>
 </html>
