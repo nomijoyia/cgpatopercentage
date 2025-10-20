@@ -2,23 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>All Blogs - Noman Personal</title>
-  <link rel="stylesheet" href="style.css">
+  <title>All Blogs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    li {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    a {
+      text-decoration: none;
+      color: #1e88e5;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <h1>All Blog Posts</h1>
-  <ul>
-    <li><a href="blogs/blog1.html">How I Started My Blogging Journey</a></li>
-    <li><a href="blogs/blog2.html">Top 5 Digital Marketing Tips</a></li>
-    <li><a href="blogs/blog3.html">Why SEO Still Matters in 2025</a></li>
-    <li><a href="blogs/blog4.html">My Favorite Tools for Creators</a></li>
-    <li><a href="blogs/blog5.html">How to Stay Consistent</a></li>
-    <li><a href="blogs/blog6.html">How to Grow on LinkedIn</a></li>
-    <li><a href="blogs/blog7.html">Building Personal Brand</a></li>
-    <li><a href="blogs/blog8.html">Mistakes to Avoid in Content Marketing</a></li>
-    <li><a href="blogs/blog9.html">My Journey as a Content Creator</a></li>
-    <li><a href="blogs/blog10.html">Future of Digital Marketing</a></li>
-  </ul>
-  <a href="index.html">← Back to Home</a>
+  <ul id="blogList"></ul>
+
+  <script>
+    // Yahan bas naye blog file ka naam add karte ja
+    const blogs = [
+      "blog1.html",
+      "blog2.html"
+    ];
+
+    const list = document.getElementById('blogList');
+    blogs.forEach(file => {
+      const title = file.replace(".html", "").replace(/-/g, " ");
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="blogs/${file}">${title}</a>`;
+      list.appendChild(li);
+    });
+  </script>
+
+  <p style="text-align:center;margin-top:40px;">
+    <a href="index.html">← Back to Home</a>
+  </p>
 </body>
 </html>
