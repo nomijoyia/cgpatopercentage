@@ -2,60 +2,117 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>All Blogs</title>
+  <title>My Blogs</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
+      font-family: 'Poppins', sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 40px 20px;
       color: #333;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-      max-width: 600px;
-      margin: 20px auto;
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #1e88e5;
     }
-    li {
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .blog-card {
       background: #fff;
-      padding: 15px;
-      margin-bottom: 10px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .blog-content {
+      padding: 15px 20px 25px;
       text-align: center;
     }
-    a {
+
+    .blog-content a {
       text-decoration: none;
       color: #1e88e5;
-      font-weight: bold;
+      font-weight: 600;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    .blog-content a:hover {
+      color: #1565c0;
+    }
+
+    .back-home {
+      display: block;
+      text-align: center;
+      margin-top: 50px;
+      text-decoration: none;
+      color: #1e88e5;
+      font-weight: 500;
     }
   </style>
 </head>
 <body>
-  <h1>All Blog Posts</h1>
-  <ul id="blogList"></ul>
+  <h1>Latest Blog Posts</h1>
+
+  <div class="blog-grid" id="blogList"></div>
+
+  <a href="index.html" class="back-home">← Back to Home</a>
 
   <script>
-    // Yahan bas naye blog file ka naam add karte ja
+    // 👇 Apne blogs yahan list karo
     const blogs = [
-      "blog1.html",
-      "blog2.html"
+      {
+        title: "My First Blog",
+        file: "blog1.html",
+        image: "images/blog1.jpg"
+      },
+      {
+        title: "How I Built My Website",
+        file: "blog2.html",
+        image: "images/blog2.jpg"
+      },
+      {
+        title: "Best Digital Marketing Tips",
+        file: "blog3.html",
+        image: "images/blog3.jpg"
+      }
     ];
 
     const list = document.getElementById('blogList');
-    blogs.forEach(file => {
-      const title = file.replace(".html", "").replace(/-/g, " ");
-      const li = document.createElement('li');
-      li.innerHTML = `<a href="blogs/${file}">${title}</a>`;
-      list.appendChild(li);
+    blogs.forEach(blog => {
+      const card = document.createElement('div');
+      card.classList.add('blog-card');
+      card.innerHTML = `
+        <a href="blogs/${blog.file}">
+          <img src="${blog.image}" alt="${blog.title}">
+          <div class="blog-content">
+            <a href="blogs/${blog.file}">${blog.title}</a>
+          </div>
+        </a>
+      `;
+      list.appendChild(card);
     });
   </script>
-
-  <p style="text-align:center;margin-top:40px;">
-    <a href="index.html">← Back to Home</a>
-  </p>
 </body>
 </html>
