@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Us | Your Site Name</title>
 
   <style>
     body {
@@ -13,12 +12,14 @@
       padding: 0;
     }
 
-    header {
-      background: #333;
-      color: #fff;
-      padding: 1rem 0;
-      text-align: center;
-    }
+     header {
+            background: var(--light);
+            box-shadow: var(--shadow);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
     nav a {
       color: white;
@@ -79,13 +80,22 @@
 </head>
 
 <body>
-  <header>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduConvert</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                 <li><a href="contact-us.html">Contact Us</a></li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
 
   <div class="container">
     <h2>Contact Us</h2>
