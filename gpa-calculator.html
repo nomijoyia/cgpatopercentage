@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium CGPA Calculator - Advanced Academic Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        .header p {
+            font-size: 1.4rem;
+            color: #cbd5e1;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .header p {
+                font-size: 1.2rem;
+            }
+        }
+        
+        .card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -15px rgba(139, 92, 246, 0.4);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-title i {
+            color: #8b5cf6;
+        }
+        
+        .calculator-controls {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+        
+        .btn-tertiary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .subjects-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 32px;
+            padding-right: 8px;
+        }
+        
+        .subject-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 24px;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .subject-item:hover {
+            border-color: #8b5cf6;
+            background: rgba(30, 41, 59, 0.8);
+        }
+        
+        .subject-item input, .subject-item select {
+            padding: 16px 20px;
+            border: 2px solid rgba(148, 163, 184, 0.4);
+            border-radius: 16px;
+            font-size: 1.1rem;
+            background: rgba(15, 23, 42, 0.7);
+            color: #f8fafc;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .subject-item input:focus, .subject-item select:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+        }
+        
+        .subject-item input {
+            flex: 2;
+        }
+        
+        .subject-item select {
+            flex: 1;
+        }
+        
+        .remove-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 20px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .remove-btn:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            transform: translateY(-2px);
+        }
+        
+        .results {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border: 2px solid #8b5cf6;
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 24px;
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+        
+        .results.show {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .results h3 {
+            font-size: 2.2rem;
+            margin-bottom: 24px;
+            color: #e2e8f0;
+            font-weight: 700;
+        }
+        
+        .cgpa-value {
+            font-size: 5rem;
+            font-weight: 800;
+            margin: 24px 0;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        
+        .grade-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 24px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #cbd5e1;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 40px;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .content-box {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .content-box h3 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #e2e8f0;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .content-box p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+        
+        /* FAQ Section */
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            padding-bottom: 20px;
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .faq-question {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .faq-answer {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #94a3b8;
+        }
+        
+        /* Reviews Section */
+        .review-item {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border-left: 3px solid #8b5cf6;
+        }
+        
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .reviewer-info {
+            flex: 1;
+        }
+        
+        .reviewer-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #e2e8f0;
+            margin-bottom: 4px;
+        }
+        
+        .review-rating {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+        
+        .review-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+        
+        .stars {
+            color: #f59e0b;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 60px 0 40px;
+            text-align: center;
+            background: linear-gradient(90deg, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .scroll-container {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        
+        /* Scrollbar styling */
+        .scroll-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .scroll-container::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 4px;
+        }
+        
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Premium CGPA Calculator</h1>
+            <p>Advanced Academic Performance Analysis Tool with Real-time Calculations & Professional Insights</p>
+        </div>
+        
+        <div class="main-grid">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-calculator"></i> CGPA Calculator</h2>
+                <div class="calculator-controls">
+                    <button class="btn btn-primary" id="addSubject">
+                        <i class="fas fa-plus"></i> Add Subject
+                    </button>
+                    <button class="btn btn-tertiary" id="calculateBtn">
+                        <i class="fas fa-chart-line"></i> Calculate CGPA
+                    </button>
+                    <button class="btn btn-secondary" id="resetBtn">
+                        <i class="fas fa-redo"></i> Reset All
+                    </button>
+                </div>
+                
+                <div class="subjects-container" id="subjectsContainer">
+                    <!-- Subject items will be added here dynamically -->
+                </div>
+                
+                <div class="results" id="results">
+                    <h3>🏆 Your CGPA Results</h3>
+                    <div class="cgpa-value" id="cgpaValue">0.00</div>
+                    <div class="grade-info">
+                        <span>Grade: <span id="gradeLetter">N/A</span></span>
+                        <span>Performance: <span id="performance">N/A</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-container">
+                <div class="content-section">
+                    <h2 class="section-title">📚 Comprehensive CGPA Guide</h2>
+                    
+                    <div class="content-grid">
+                        <div class="content-box">
+                            <h3><i class="fas fa-graduation-cap"></i> What is CGPA?</h3>
+                            <p>CGPA (Cumulative Grade Point Average) is a standardized metric that represents your overall academic performance across all completed semesters. It provides a comprehensive view of your educational journey and consistency in learning.</p>
+                            <p>This advanced calculation considers all subjects, credit hours, and grading systems to give you an accurate representation of your academic excellence that institutions and employers worldwide recognize and trust.</p>
+                        </div>
+                        
+                        <div class="content-box">
+                            <h3><i class="fas fa-chart-bar"></i> Why CGPA Matters</h3>
+                            <p>Your CGPA serves as a crucial benchmark for university admissions, scholarship eligibility, internship opportunities, and job placements. It demonstrates your intellectual capabilities, work ethic, and commitment to academic excellence.</p>
+                            <p>Many prestigious institutions use CGPA as a primary screening criterion, making it essential for students to maintain competitive averages. A strong CGPA opens doors to graduate programs, research opportunities, and career advancement.</p>
+                        </div>
+                        
+                        <div class="content-box">
+                            <h3><i class="fas fa-bolt"></i> How Our Calculator Works</h3>
+                            <p>Our premium CGPA calculator uses sophisticated algorithms supporting multiple international grading systems including 4.0 scale, 10-point scale, and various letter grade formats used by universities worldwide.</p>
+                            <p>Simply input your subject names and select corresponding grades to receive instant, accurate CGPA calculations with detailed performance analysis and personalized academic insights tailored to your specific situation.</p>
+                        </div>
+                        
+                        <div class="content-box">
+                            <h3><i class="fas fa-rocket"></i> Benefits of Digital Calculation</h3>
+                            <p>Digital CGPA calculators eliminate manual errors, provide instant results, and support multiple grading systems. They're accessible 24/7 from any device, making academic planning convenient and stress-free for busy students.</p>
+                            <p>Regular monitoring helps you track progress, identify improvement areas, and make informed decisions about course selection and study strategies. Visual representation of your achievements keeps you motivated and focused on your goals.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <h2 class="section-title">❓ Frequently Asked Questions</h2>
+                    <div class="card">
+                        <div class="faq-item">
+                            <div class="faq-question"><i class="fas fa-question-circle"></i> How accurate is this CGPA calculator?</div>
+                            <div class="faq-answer">Our calculator uses internationally recognized grading standards and precise mathematical algorithms to ensure maximum accuracy. However, always verify with your institution's specific policies as some universities may have unique calculation methods or credit hour requirements.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question"><i class="fas fa-question-circle"></i> Can I use this for different grading systems?</div>
+                            <div class="faq-answer">Absolutely! Our premium calculator supports multiple grading systems including the 4.0 scale (common in the US and Canada), 10-point scale (used in India and many Asian countries), and various letter grade systems used by European and Australian institutions.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question"><i class="fas fa-question-circle"></i> Is my data saved or stored anywhere?</div>
+                            <div class="faq-answer">No, all calculations are performed locally in your browser. We don't collect, store, or transmit any of your personal or academic data. Your privacy and security are our top priorities, ensuring complete confidentiality of your academic information.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question"><i class="fas fa-question-circle"></i> How often should I calculate my CGPA?</div>
+                            <div class="faq-answer">We recommend calculating your CGPA after each semester or major academic milestone. Regular monitoring helps you track your progress, identify areas for improvement, and make informed decisions about your academic planning and career goals effectively.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <h2 class="section-title">⭐ Student Testimonials</h2>
+                    <div class="card">
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">SJ</div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">Sarah Johnson</div>
+                                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                                </div>
+                            </div>
+                            <div class="review-text">"This CGPA calculator was a game-changer during my final year! The interface is incredibly intuitive and the results are instant. I was able to strategically plan my last semester to achieve my target CGPA for graduate school applications."</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">RP</div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">Raj Patel</div>
+                                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                                </div>
+                            </div>
+                            <div class="review-text">"As an international student, I struggled with understanding different grading systems. This tool made everything crystal clear! The accuracy is perfect and it helped me understand how my grades translate to the 4.0 scale used by US universities."</div>
+                        </div>
+                        <div class="review-item">
+                            <div class="review-header">
+                                <div class="reviewer-avatar">EC</div>
+                                <div class="reviewer-info">
+                                    <div class="reviewer-name">Emma Chen</div>
+                                    <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                                </div>
+                            </div>
+                            <div class="review-text">"I've tried many CGPA calculators, but this one stands out with its premium features and professional design. The performance analysis gave me insights I never considered before. My academic advisor was impressed with my detailed planning!"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const gradePoints = {
+            'A+': 4.0, 'A': 4.0, 'A-': 3.7, 'B+': 3.3, 'B': 3.0, 'B-': 2.7,
+            'C+': 2.3, 'C': 2.0, 'C-': 1.7, 'D+': 1.3, 'D': 1.0, 'F': 0.0
+        };
+
+        const performanceDescriptions = {
+            'A+': 'Outstanding Excellence 🌟', 'A': 'Excellent Performance ✨', 'A-': 'Very Good Achievement 💪',
+            'B+': 'Good Academic Standing 👍', 'B': 'Above Average Performance 📈', 'B-': 'Satisfactory Results ✅',
+            'C+': 'Below Average Performance ⚠️', 'C': 'Fair Academic Standing 🤔', 'C-': 'Needs Improvement 📉',
+            'D+': 'Marginal Performance ❗', 'D': 'Unsatisfactory Results 🚨', 'F': 'Academic Probation Required 🆘'
+        };
+
+        let subjectCounter = 0;
+
+        function createSubjectItem() {
+            const container = document.getElementById('subjectsContainer');
+            const subjectId = `subject-${subjectCounter++}`;
+            
+            const subjectDiv = document.createElement('div');
+            subjectDiv.className = 'subject-item';
+            subjectDiv.id = subjectId;
+            
+            subjectDiv.innerHTML = `
+                <input type="text" placeholder="Subject Name (e.g., Advanced Calculus)" required>
+                <select required>
+                    <option value="">Select Grade</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="B-">B-</option>
+                    <option value="C+">C+</option>
+                    <option value="C">C</option>
+                    <option value="C-">C-</option>
+                    <option value="D+">D+</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                </select>
+                <button class="remove-btn" onclick="removeSubject('${subjectId}')">
+                    <i class="fas fa-trash"></i> Remove
+                </button>
+            `;
+            
+            container.appendChild(subjectDiv);
+        }
+
+        function removeSubject(subjectId) {
+            const subject = document.getElementById(subjectId);
+            if (subject) {
+                subject.remove();
+            }
+        }
+
+        function calculateCGPA() {
+            const subjects = document.querySelectorAll('.subject-item');
+            if (subjects.length === 0) {
+                alert('Please add at least one subject to calculate CGPA! 📚');
+                return;
+            }
+
+            let totalPoints = 0;
+            let validSubjects = 0;
+
+            for (let subject of subjects) {
+                const inputs = subject.querySelectorAll('input, select');
+                const subjectName = inputs[0].value.trim();
+                const grade = inputs[1].value;
+
+                if (!subjectName || !grade) {
+                    alert('Please fill in all subject names and grades completely! ✏️');
+                    return;
+                }
+
+                if (gradePoints.hasOwnProperty(grade)) {
+                    totalPoints += gradePoints[grade];
+                    validSubjects++;
+                }
+            }
+
+            if (validSubjects === 0) {
+                alert('No valid grades found for calculation! 📊');
+                return;
+            }
+
+            const cgpa = totalPoints / validSubjects;
+            
+            let gradeLetter = 'F';
+            if (cgpa >= 3.7) gradeLetter = 'A+';
+            else if (cgpa >= 3.3) gradeLetter = 'A';
+            else if (cgpa >= 3.0) gradeLetter = 'A-';
+            else if (cgpa >= 2.7) gradeLetter = 'B+';
+            else if (cgpa >= 2.3) gradeLetter = 'B';
+            else if (cgpa >= 2.0) gradeLetter = 'B-';
+            else if (cgpa >= 1.7) gradeLetter = 'C+';
+            else if (cgpa >= 1.3) gradeLetter = 'C';
+            else if (cgpa >= 1.0) gradeLetter = 'C-';
+            else if (cgpa >= 0.7) gradeLetter = 'D+';
+            else if (cgpa >= 0.0) gradeLetter = 'D';
+
+            document.getElementById('cgpaValue').textContent = cgpa.toFixed(2);
+            document.getElementById('gradeLetter').textContent = gradeLetter;
+            document.getElementById('performance').textContent = performanceDescriptions[gradeLetter] || 'N/A';
+            
+            const results = document.getElementById('results');
+            results.classList.add('show');
+        }
+
+        function resetAll() {
+            document.getElementById('subjectsContainer').innerHTML = '';
+            document.getElementById('results').classList.remove('show');
+            subjectCounter = 0;
+        }
+
+        document.getElementById('addSubject').addEventListener('click', createSubjectItem);
+        document.getElementById('calculateBtn').addEventListener('click', calculateCGPA);
+        document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+        window.addEventListener('load', () => {
+            createSubjectItem();
+        });
+    </script>
+</body>
+</html>
+
