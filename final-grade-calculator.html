@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Final Grade Calculator</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for number inputs (hide arrows) */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-white to-cyan-50 min-h-screen py-10 px-4">
+
+    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-8 md:p-12 border border-gray-100">
+        
+        <h1 class="text-4xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-green-500">Advanced Final Grade Calculator</h1>
+        <p class="text-center text-gray-500 mb-8 text-lg">Enter your course categories, weights, and grades to find out what you need on the final exam.</p>
+
+        <!-- Grade Categories Section -->
+        <div class="mb-6">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800 tracking-wide">1. Current Grade Categories</h2>
+            <!-- Headers for the list -->
+            <div class="flex space-x-2 md:space-x-4 mb-3 text-sm font-semibold text-gray-400 uppercase tracking-wider px-2">
+                <span class="w-2/5">Category Name</span>
+                <span class="w-1/4 text-center">Weight (%)</span>
+                <span class="w-1/4 text-center">Grade (%)</span>
+                <span class="w-auto"></span> <!-- Spacer for remove button -->
+            </div>
+            
+            <!-- Dynamic List of Categories -->
+            <div id="categories-list" class="space-y-3">
+                <!-- Category rows will be added here by JS -->
+            </div>
+        </div>
+
+        <!-- Add Category Button -->
+        <button id="add-category-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 mb-8 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+            + Add Another Category
+        </button>
+
+        <!-- Calculation Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+                <label for="final-weight" class="block text-sm font-medium text-gray-700 mb-2">2. Final Exam Weight (%)</label>
+                <input type="number" id="final-weight" placeholder="e.g., 25" class="w-full p-3.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-400">
+            </div>
+            <div>
+                <label for="desired-grade" class="block text-sm font-medium text-gray-700 mb-2">3. Desired Course Grade (%)</label>
+                <input type="number" id="desired-grade" placeholder="e.g., 90" class="w-full p-3.5 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 placeholder-gray-400">
+            </div>
+        </div>
+
+        <!-- Calculate Button -->
+        <button id="calculate-btn" class="w-full bg-gradient-to-r from-green-500 to-cyan-500 hover:from-green-600 hover:to-cyan-600 text-white font-bold text-lg py-4 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 mb-8">
+            Calculate Score Needed
+        </button>
+
+        <!-- Results Section -->
+        <div id="results" class="hidden bg-gray-50 rounded-lg p-8 border border-gray-200">
+            <div class="text-center">
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">Your Current Grade is:</h3>
+                <p id="current-grade-output" class="text-4xl font-extrabold text-indigo-600 mb-5">--%</p>
+                
+                <hr class="my-5 border-gray-200">
+                
+                <h3 class="text-lg font-semibold text-gray-700 mb-2">To get a <span id="desired-grade-echo" class="font-bold">--</span>% in the class, you need:</h3>
+                <p id="score-needed-output" class="text-4xl font-extrabold text-green-600 mb-3">--%</p>
+                <p id="feedback-message" class="text-base text-gray-600 font-medium"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Get DOM elements
+        const categoriesList = document.getElementById('categories-list');
+        const addCategoryBtn = document.getElementById('add-category-btn');
+        const calculateBtn = document.getElementById('calculate-btn');
+        
+        const finalWeightInput = document.getElementById('final-weight');
+        const desiredGradeInput = document.getElementById('desired-grade');
+        
+        const resultsDiv = document.getElementById('results');
+        const currentGradeOutput = document.getElementById('current-grade-output');
+        const desiredGradeEcho = document.getElementById('desired-grade-echo');
+        const scoreNeededOutput = document.getElementById('score-needed-output');
+        const feedbackMessage = document.getElementById('feedback-message');
+
+        // Function to create a new category row
+        function addCategoryRow(name = '', weight = '', grade = '') {
+            const row = document.createElement('div');
+            row.className = 'category-row flex space-x-2 md:space-x-4 items-center';
+            
+            row.innerHTML = `
+                <input type="text" class="category-name w-2/5 p-3.5 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" placeholder="e.g., Homework" value="${name}">
+                <input type="number" class="weight-input w-1/4 p-3.5 border border-gray-300 rounded-lg shadow-sm text-center placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" placeholder="20" value="${weight}">
+                <input type="number" class="grade-input w-1/4 p-3.5 border border-gray-300 rounded-lg shadow-sm text-center placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" placeholder="85" value="${grade}">
+                <button class="remove-btn bg-gray-200 text-gray-500 hover:bg-red-500 hover:text-white font-bold py-2 px-3.5 rounded-lg transition-all duration-200 text-xl transform hover:scale-110">&times;</button>
+            `;
+            
+            // Add event listener to the new remove button
+            row.querySelector('.remove-btn').addEventListener('click', () => {
+                row.remove();
+            });
+            
+            categoriesList.appendChild(row);
+        }
+
+        // Add Category Button Event
+        addCategoryBtn.addEventListener('click', () => {
+            addCategoryRow();
+        });
+
+        // Calculate Button Event
+        calculateBtn.addEventListener('click', () => {
+            let currentWeightedScore = 0;
+            let currentWeightSum = 0;
+            let totalWeightPossible = 0;
+
+            // Loop through all category rows
+            const rows = document.querySelectorAll('.category-row');
+            rows.forEach(row => {
+                const weight = parseFloat(row.querySelector('.weight-input').value) / 100 || 0;
+                const grade = parseFloat(row.querySelector('.grade-input').value) || 0;
+                
+                if (weight > 0) {
+                    currentWeightedScore += (grade * weight);
+                    currentWeightSum += weight;
+                }
+            });
+
+            // Get final exam and desired grade values
+            const finalExamWeight = parseFloat(finalWeightInput.value) / 100 || 0;
+            const desiredGrade = parseFloat(desiredGradeInput.value) || 0;
+
+            // --- 1. Calculate Current Grade ---
+            let currentGrade = 0;
+            if (currentWeightSum > 0) {
+                currentGrade = currentWeightedScore / currentWeightSum;
+            }
+            currentGradeOutput.textContent = `${currentGrade.toFixed(2)}%`;
+            
+            // --- 2. Calculate Score Needed ---
+            let scoreNeeded = 0;
+            if (finalExamWeight > 0) {
+                scoreNeeded = (desiredGrade - (currentWeightedScore * 100)) / (finalExamWeight * 100);
+            }
+
+            // --- 3. Display Results and Feedback ---
+            desiredGradeEcho.textContent = desiredGrade;
+            
+            // Clear previous feedback styles
+            scoreNeededOutput.classList.remove('text-green-600', 'text-red-600', 'text-gray-700', 'text-indigo-600');
+            feedbackMessage.classList.remove('text-green-600', 'text-red-600', 'text-yellow-600');
+
+            if (finalExamWeight <= 0) {
+                scoreNeededOutput.textContent = "N/A";
+                scoreNeededOutput.classList.add('text-gray-700');
+                feedbackMessage.textContent = "Please enter a valid weight for your final exam.";
+                feedbackMessage.classList.add('text-red-600');
+            } else if (scoreNeeded > 100) {
+                scoreNeededOutput.textContent = `${scoreNeeded.toFixed(2)}%`;
+                scoreNeededOutput.classList.add('text-red-600');
+                feedbackMessage.textContent = "Unfortunately, it's mathematically impossible to get that grade.";
+                feedbackMessage.classList.add('text-red-600');
+            } else if (scoreNeeded <= 0) {
+                scoreNeededOutput.textContent = `0%`;
+                scoreNeededOutput.classList.add('text-green-600');
+                feedbackMessage.textContent = "You've already achieved your desired grade! Great job!";
+                feedbackMessage.classList.add('text-green-600');
+            } else {
+                scoreNeededOutput.textContent = `${scoreNeeded.toFixed(2)}%`;
+                scoreNeededOutput.classList.add('text-green-600');
+                feedbackMessage.textContent = "You can do it! Good luck studying.";
+                feedbackMessage.classList.add('text-green-600');
+            }
+            
+            // Check total weight
+            totalWeightPossible = (currentWeightSum + finalExamWeight) * 100;
+            if (totalWeightPossible.toFixed(0) != 100 && finalExamWeight > 0) { // Used toFixed(0) != 100 to handle potential floating point issues
+                feedbackMessage.textContent += ` (Warning: Your total weights add up to ${totalWeightPossible.toFixed(0)}%, not 100%.)`;
+                if (scoreNeeded > 0 && scoreNeeded <= 100) {
+                    feedbackMessage.classList.remove('text-green-600');
+                }
+                feedbackMessage.classList.add('text-yellow-700');
+            }
+
+            resultsDiv.classList.remove('hidden');
+        });
+
+        // Add a few default rows to start
+        addCategoryRow('Homework', '20', '92');
+        addCategoryRow('Quizzes', '30', '88');
+        addCategoryRow('Midterm', '25', '82');
+
+    </script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Grade Calculator Explained</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Inter font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 py-10 px-4">
+
+    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8 md:p-12">
+        <h1 class="text-4xl font-bold text-center mb-8 text-gray-800">All About Final Grade Calculators</h1>
+        
+        <div class="space-y-6">
+
+            <!-- Heading 1 -->
+            <div class="bg-blue-100 text-blue-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">What is a Final Grade Calculator?</h2>
+            </div>
+            <div class="bg-blue-50 text-blue-700 p-4 rounded-lg">
+                <p>A final grade calculator is a digital tool designed to help students determine their potential course grade. By inputting current scores and their corresponding weights, along with the weight of the final exam, the calculator can project what score is needed on that exam to achieve a desired overall grade for the class.</p>
+            </div>
+
+            <!-- Heading 2 -->
+            <div class="bg-green-100 text-green-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Why Use a Final Grade Calculator?</h2>
+            </div>
+            <div class="bg-green-50 text-green-700 p-4 rounded-lg">
+                <p>Using one of these calculators provides immense clarity and reduces end-of-semester anxiety. It transforms wishful thinking into an actionable goal. Instead of just "hoping" for an A, you will know the exact target score you need to hit on your final. This allows for strategic studying and realistic goal setting based on data.</p>
+            </div>
+
+            <!-- Heading 3 -->
+            <div class="bg-yellow-100 text-yellow-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">How Do These Calculators Work?</h2>
+            </div>
+            <div class="bg-yellow-50 text-yellow-700 p-4 rounded-lg">
+                <p>The calculation is based on a weighted average formula. The tool multiplies your grade in each category (homework, quizzes, etc.) by its percentage weight. It sums these values to find your current weighted grade. Then, it calculates how many points from the final exam are needed to reach your desired total grade percentage.</p>
+            </div>
+
+            <!-- Heading 4 -->
+            <div class="bg-purple-100 text-purple-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Understanding Weighted Grades</h2>
+            </div>
+            <div class="bg-purple-50 text-purple-700 p-4 rounded-lg">
+                <p>Not all assignments are created equal. A final exam worth 30% of your grade has far more impact than a homework assignment worth 5%. Weighted grades reflect this importance. A grade calculator demystifies this system, showing you precisely how much each part of your course contributes to the final mark you see on your transcript.</p>
+            </div>
+
+            <!-- Heading 5 -->
+            <div class="bg-pink-100 text-pink-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Calculating Your Current Grade Accurately</h2>
+            </div>
+            <div class="bg-pink-50 text-pink-700 p-4 rounded-lg">
+                <p>Before you can calculate your final, you must know your current standing. An advanced calculator allows you to enter all your graded categories separately. This is more accurate than using a simple average, as it correctly computes your weighted grade based on the syllabus, giving you a true snapshot of your performance so far.</p>
+            </div>
+
+            <!-- Heading 6 -->
+            <div class="bg-indigo-100 text-indigo-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Setting Your Desired Grade Goal</h2>
+            </div>
+            <div class="bg-indigo-50 text-indigo-700 p-4 rounded-lg">
+                <p>This feature is the calculator's most powerful motivator. You can input your target for the course—whether it's a 90% for an A or a 70% to pass. The calculator works backward to show you the minimum score required on the final to make that goal a reality. This simple number becomes your clear target for study sessions.</p>
+            </div>
+
+            <!-- Heading 7 -->
+            <div class="bg-cyan-100 text-cyan-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">The Power of "What If" Scenarios</h2>
+            </div>
+            <div class="bg-cyan-50 text-cyan-700 p-4 rounded-lg">
+                <p>A good calculator lets you experiment. What if you want a 95%? What if you only want an 80%? By changing the "desired grade" input, you can see how the required final exam score changes. This helps you balance your study time across different classes, prioritizing effort where it's needed most to achieve your academic goals.</p>
+            </div>
+
+            <!-- Heading 8 -->
+            <div class="bg-red-100 text-red-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Finding a Reliable Calculator Tool</h2>
+            </div>
+            <div class="bg-red-50 text-red-700 p-4 rounded-lg">
+                <p>Look for a calculator that allows you to add multiple, custom-named grade categories. A simple tool that only asks for "current grade" and "final weight" is less accurate. The best tools, like the one on this page, let you mirror your syllabus exactly, with separate inputs for homework, participation, midterms, and quizzes for the most precise result.</p>
+            </div>
+
+            <!-- Heading 9 -->
+            <div class="bg-orange-100 text-orange-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Tips for Using Grade Calculators Effectively</h2>
+            </div>
+            <div class="bg-orange-50 text-orange-700 p-4 rounded-lg">
+                <p>Double-check your syllabus to ensure your weights are correct. An error here will make the entire calculation wrong. Update your grades in the calculator as you get them. And be realistic: if the calculator says you need a 110% to get an A, it's mathematically impossible. Use that information to adjust your goal to something achievable.</p>
+            </div>
+
+            <!-- Heading 10 -->
+            <div class="bg-teal-100 text-teal-800 p-4 rounded-lg shadow">
+                <h2 class="text-2xl font-bold">Beyond the Calculator: Effective Study Habits</h2>
+            </div>
+            <div class="bg-teal-50 text-teal-700 p-4 rounded-lg">
+                <p>A calculator is just a map; it doesn't drive the car. Knowing your target score is step one. Step two is creating a study plan to achieve it. Break down your studying into manageable sessions, focus on weak areas, attend review sessions, and get enough sleep. The calculator gives you the number, but your hard work earns the grade.</p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
