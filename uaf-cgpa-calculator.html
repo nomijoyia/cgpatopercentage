@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAF Advanced CGPA Calculator</title>
+    <!-- Load Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Apply the Inter font family */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for a more premium feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; /* dark:bg-gray-800 */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563; /* dark:bg-gray-600 */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280; /* dark:bg-gray-500 */
+        }
+        /* Style for the select dropdown arrow */
+        .select-arrow {
+            pointer-events: none;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen p-4 md:p-8 transition-colors duration-300">
+
+    <div class="w-full max-w-4xl mx-auto">
+        <!-- Main Calculator Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl overflow-hidden">
+            
+            <!-- Header -->
+            <div class="p-6 md:p-8 border-b border-gray-200 dark:border-gray-700">
+                <h1 class="text-3xl md:text-4xl font-bold text-center">
+                    UAF Advanced 
+                    <span class="text-green-600 dark:text-green-400">CGPA Calculator</span>
+                </h1>
+                <p class="text-center text-gray-500 dark:text-gray-400 mt-2">
+                    Calculate your Semester GPA and overall CGPA with precision.
+                </p>
+            </div>
+
+            <div class="p-6 md:p-8">
+                
+                <!-- Result Display Area -->
+                <div id="result-display" class="text-center p-6 bg-gray-50 dark:bg-gray-900/50 rounded-lg mb-6 shadow-inner">
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">Overall CGPA</h2>
+                    <div id="overall-cgpa-result" class="text-6xl font-extrabold text-green-600 dark:text-green-400 transition-all duration-300">
+                        0.00
+                    </div>
+                </div>
+
+                <!-- Message Box for Errors/Success -->
+                <div id="message-box" class="p-4 rounded-lg mb-6 text-center font-medium hidden"></div>
+
+                <!-- Section 1: Current CGPA (Optional) -->
+                <div class="mb-6 p-5 bg-gray-50 dark:bg-gray-700/30 rounded-lg shadow-inner">
+                    <h3 class="text-xl font-semibold mb-4">Factor in Current CGPA (Optional)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="current-cgpa" class="block text-sm font-medium mb-1.5 text-gray-700 dark:text-gray-300">Current CGPA</label>
+                            <input type="number" id="current-cgpa" step="0.01" min="0" max="4.00" placeholder="e.g., 3.50"
+                                   class="w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition">
+                        </div>
+                        <div>
+                            <label for="current-credits" class="block text-sm font-medium mb-1.5 text-gray-700 dark:text-gray-300">Total Credit Hours Completed</label>
+                            <input type="number" id="current-credits" step="0.5" min="0" placeholder="e.g., 68"
+                                   class="w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 2: Semesters -->
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-4">Semesters</h3>
+                    <div id="semesters-container" class="space-y-6">
+                        <!-- Semesters will be dynamically added here -->
+                    </div>
+                    <button id="add-semester-btn"
+                            class="mt-6 w-full flex items-center justify-center gap-2 px-5 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 shadow-lg hover:shadow-blue-500/30 transition-all transform hover:-translate-y-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        Add New Semester
+                    </button>
+                </div>
+
+                <!-- Section 3: Actions -->
+                <div>
+                    <button id="calculate-btn"
+                            class="w-full p-4 bg-green-600 text-white font-bold rounded-lg text-lg hover:bg-green-700 shadow-lg hover:shadow-green-600/40 transition-all transform hover:-translate-y-0.5">
+                        Calculate Overall CGPA
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700/50">
+                <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                    Premium Tool for UAF Students
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- UAF Grading System ---
+            const UAF_GRADE_POINTS = {
+                'A+': 4.00,
+                'A': 4.00,
+                'A-': 3.70,
+                'B+': 3.30,
+                'B': 3.00,
+                'B-': 2.70,
+                'C+': 2.30,
+                'C': 2.00,
+                'C-': 1.70,
+                'D': 1.00,
+                'F': 0.00
+            };
+            const gradeOptions = Object.keys(UAF_GRADE_POINTS);
+
+            // --- State ---
+            let semesterIdCounter = 0;
+            const semestersContainer = document.getElementById('semesters-container');
+            const addSemesterBtn = document.getElementById('add-semester-btn');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const overallCgpaResult = document.getElementById('overall-cgpa-result');
+            const messageBox = document.getElementById('message-box');
+            const resultDisplay = document.getElementById('result-display'); // Added this line
+
+            // --- Functions ---
+
+            /**
+             * Creates and returns the HTML for the grade selector dropdown.
+             */
+            function createGradeSelector() {
+                let optionsHtml = '<option value="" disabled selected>Grade</option>';
+                gradeOptions.forEach(grade => {
+                    optionsHtml += `<option value="${grade}">${grade}</option>`;
+                });
+                return `
+                    <div class="relative flex-shrink-0 w-full md:w-32">
+                        <select class="course-grade w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg appearance-none focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition pr-8">
+                            ${optionsHtml}
+                        </select>
+                        <svg class="w-5 h-5 text-gray-400 absolute select-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                           <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                `;
+            }
+
+            /**
+             * Creates and appends a new course row to a specific semester.
+             */
+            function addCourse(semesterBody, courseId) {
+                const courseRow = document.createElement('div');
+                courseRow.className = 'course-row flex flex-wrap md:flex-nowrap items-center gap-3 mb-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg';
+                courseRow.innerHTML = `
+                    <div class="relative flex-grow w-full md:w-auto">
+                        <input type="number" step="0.5" min="0.5" placeholder="Credit Hours"
+                               class="course-credits w-full p-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition"
+                               aria-label="Credit Hours for course ${courseId}">
+                    </div>
+                    ${createGradeSelector()}
+                    <button type="button"
+                            class="remove-course-btn flex-shrink-0 px-3 py-3 md:py-1 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition text-xs w-full md:w-auto"
+                            aria-label="Remove course ${courseId}">
+                        Remove
+                    </button>
+                `;
+                semesterBody.appendChild(courseRow);
+            }
+
+            /**
+             * Creates and appends a new semester block.
+             */
+            function addNewSemester() {
+                semesterIdCounter++;
+                const semesterEl = document.createElement('div');
+                semesterEl.className = 'semester-block p-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md bg-white dark:bg-gray-800/50';
+                semesterEl.dataset.id = semesterIdCounter;
+
+                semesterEl.innerHTML = `
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-lg font-semibold">
+                            Semester ${semesterIdCounter}
+                            <span class="semester-gpa-result ml-2 text-sm font-bold text-blue-500 dark:text-blue-400"></span>
+                        </h4>
+                        <button type="button"
+                                class="remove-semester-btn px-3 py-1 bg-red-600 text-white font-medium rounded-full hover:bg-red-700 transition-all text-xs"
+                                aria-label="Remove Semester ${semesterIdCounter}">
+                            &times; Remove Semester
+                        </button>
+                    </div>
+                    <div class="semester-body space-y-3 mb-4">
+                        <!-- Courses will be added here -->
+                    </div>
+                    <button type="button"
+                            class="add-course-btn w-full md:w-auto px-4 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 shadow-sm transition text-sm">
+                        + Add Course
+                    </button>
+                `;
+                
+                semestersContainer.appendChild(semesterEl);
+                
+                // Add one course by default to the new semester
+                const semesterBody = semesterEl.querySelector('.semester-body');
+                addCourse(semesterBody, 1);
+            }
+
+            /**
+             * Handles click events for adding/removing courses and semesters.
+             */
+            function handleContainerClick(e) {
+                const target = e.target;
+                
+                // Add Course
+                if (target.classList.contains('add-course-btn')) {
+                    const semesterBody = target.previousElementSibling;
+                    const courseCount = semesterBody.querySelectorAll('.course-row').length + 1;
+                    addCourse(semesterBody, courseCount);
+                }
+                
+                // Remove Course
+                if (target.classList.contains('remove-course-btn')) {
+                    target.closest('.course-row').remove();
+                }
+                
+                // Remove Semester
+                if (target.classList.contains('remove-semester-btn')) {
+                    target.closest('.semester-block').remove();
+                }
+            }
+
+            /**
+             * Displays a message in the message box.
+             */
+            function showMessage(message, isError = false) {
+                messageBox.textContent = message;
+                messageBox.classList.remove('hidden');
+                if (isError) {
+                    messageBox.className = 'p-4 rounded-lg mb-6 text-center font-medium bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200';
+                } else {
+                    messageBox.className = 'p-4 rounded-lg mb-6 text-center font-medium bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-200';
+                }
+            }
+
+            /**
+             * Hides the message box.
+             */
+            function hideMessage() {
+                messageBox.classList.add('hidden');
+                messageBox.textContent = '';
+            }
+
+            /**
+             * Calculates the Semester GPA and Overall CGPA.
+             */
+            function calculateOverallCGPA() {
+                hideMessage();
+                let overallTotalPoints = 0;
+                let overallTotalCredits = 0;
+                let isValid = true;
+
+                // Step 1: Get current CGPA data
+                const currentCgpaInput = document.getElementById('current-cgpa');
+                const currentCreditsInput = document.getElementById('current-credits');
+
+                const currentCGPA = parseFloat(currentCgpaInput.value);
+                const currentCredits = parseFloat(currentCreditsInput.value);
+
+                if (!isNaN(currentCGPA) && !isNaN(currentCredits) && currentCGPA >= 0 && currentCredits > 0) {
+                    overallTotalPoints = currentCGPA * currentCredits;
+                    overallTotalCredits = currentCredits;
+                } else if (!isNaN(currentCGPA) || !isNaN(currentCredits)) {
+                    // If one is filled but not the other
+                    if (currentCgpaInput.value || currentCreditsInput.value) {
+                       showMessage('Please fill *both* Current CGPA and Total Credit Hours, or leave them empty.', true);
+                       currentCgpaInput.focus();
+                       isValid = false;
+                       return;
+                    }
+                }
+
+                // Step 2: Iterate through semesters
+                const semesters = semestersContainer.querySelectorAll('.semester-block');
+                
+                if (semesters.length === 0 && overallTotalCredits === 0) {
+                    showMessage('Please add at least one semester and one course.', true);
+                    isValid = false;
+                    return;
+                }
+                
+                semesters.forEach(semester => {
+                    let semesterTotalPoints = 0;
+                    let semesterTotalCredits = 0;
+                    const gpaResultEl = semester.querySelector('.semester-gpa-result');
+                    const courses = semester.querySelectorAll('.course-row');
+
+                    if (courses.length === 0) {
+                        showMessage(`Semester ${semester.dataset.id} has no courses.`, true);
+                        isValid = false;
+                    }
+
+                    courses.forEach(course => {
+                        const creditInput = course.querySelector('.course-credits');
+                        const gradeSelect = course.querySelector('.course-grade');
+                        
+                        const credits = parseFloat(creditInput.value);
+                        const grade = gradeSelect.value;
+                        
+                        if (isNaN(credits) || credits <= 0 || !grade) {
+                            showMessage('Please fill all credit hours and grades for all courses.', true);
+                            if (isNaN(credits) || credits <= 0) {
+                                creditInput.focus();
+                            } else {
+                                gradeSelect.focus();
+                            }
+                            isValid = false;
+                        }
+
+                        if (isValid) {
+                            const gradePoint = UAF_GRADE_POINTS[grade];
+                            semesterTotalPoints += gradePoint * credits;
+                            semesterTotalCredits += credits;
+                        }
+                    });
+
+                    if (isValid) {
+                        overallTotalPoints += semesterTotalPoints;
+                        overallTotalCredits += semesterTotalCredits;
+
+                        // Calculate and display semester GPA
+                        const semesterGPA = (semesterTotalCredits > 0) ? (semesterTotalPoints / semesterTotalCredits) : 0;
+                        gpaResultEl.textContent = `(GPA: ${semesterGPA.toFixed(2)})`;
+                    }
+                });
+
+                // Step 3: Final Calculation and Display
+                if (isValid) {
+                    const overallCGPA = (overallTotalCredits > 0) ? (overallTotalPoints / overallTotalCredits) : 0;
+                    overallCgpaResult.textContent = overallCGPA.toFixed(2);
+                    
+                    if (overallCGPA > 0) {
+                        showMessage('Successfully calculated your CGPA!', false);
+                    } else if (semesters.length > 0) {
+                         showMessage('CGPA is 0.00. Check your grades and credits.', false);
+                    }
+                    
+                    // Scroll to the result
+                    resultDisplay.scrollIntoView({ behavior: 'smooth' }); // Fixed variable name
+                }
+            }
+
+
+            // --- Event Listeners ---
+            addSemesterBtn.addEventListener('click', addNewSemester);
+            semestersContainer.addEventListener('click', handleContainerClick);
+            calculateBtn.addEventListener('click', calculateOverallCGPA);
+
+            // --- Initial State ---
+            addNewSemester(); // Start with one semester by default
+        });
+    </script>
+</body>
+</html>
+
+<div style="background-color: #f3f4f6; padding: 20px; border-radius: 12px; font-family: 'Inter', sans-serif; color: #111827;">
+
+<div style="background-color: #ffffff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #10b981;">
+<h1 style="color: #10b981; font-size: 2.25rem; font-weight: 800; margin-bottom: 10px;">The Ultimate Guide to Using a UAF CGPA Calculator for Academic Success</h1>
+<p style="font-size: 1.1rem; line-height: 1.6;">Navigating your academic journey at the University of Agriculture, Faisalabad (UAF) requires careful tracking of your performance. Your Cumulative Grade Point Average (CGPA) is the most critical metric for this. While manual calculations are possible, they are prone to errors. This is where a <strong>UAF CGPA calculator</strong> becomes an indispensable tool, helping you accurately track, plan, and optimize your academic standing with precision and ease.</p>
+</div>
+
+<div style="background-color: #fef3c7; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #f59e0b;">
+<h2 style="color: #d97706; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">1. What is CGPA and Why is it Crucial at UAF?</h2>
+<p style="font-size: 1rem; line-height: 1.6;">CGPA, or Cumulative Grade Point Average, is the average of your Grade Points obtained in all subjects across all semesters you have completed. Unlike a Semester GPA (which only measures performance in one semester), your CGPA gives a holistic view of your entire academic performance at UAF. This single number is profoundly important: it determines your eligibility for scholarships, honor rolls, postgraduate admissions, and even job opportunities. Maintaining a strong CGPA is essential for graduating with honors and opening doors to future academic and professional pursuits.</p>
+</div>
+
+<div style="background-color: #dbeafe; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #3b82f6;">
+<h2 style="color: #2563eb; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">2. Understanding the UAF Grading System</h2>
+<p style="font-size: 1rem; line-height: 1.6;">To use any UAF CGPA calculator effectively, you must first understand the university's grading policy. UAF employs a 4.00 scale. Each letter grade you receive in a subject corresponds to a specific numerical value called a Grade Point (GP). For example, an 'A' grade is worth 4.00 grade points, 'A-' is 3.70, 'B+' is 3.30, 'B' is 3.00, and so on, down to 'F' which is 0.00. An accurate calculator is pre-programmed with these exact values to ensure your calculation is correct.</p>
+</div>
+
+<div style="background-color: #dcfce7; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #22c55e;">
+<h2 style="color: #16a34a; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">3. How to Manually Calculate Your Semester GPA</h2>
+<p style="font-size: 1rem; line-height: 1.6;">Before calculating your overall CGPA, you must find the GPA for each semester. The formula is: (Total Quality Points) / (Total Credit Hours). To find the Total Quality Points for a semester, you multiply the credit hours of each course by the grade points you earned in that course, and then add them all together. For instance, if you get an 'A' (4.00 GP) in a 3-credit-hour course, you earn 3 * 4.00 = 12 quality points. A dedicated UAF CGPA calculator automates this entire process for you.</p>
+</div>
+
+<div style="background-color: #fee2e2; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #ef4444;">
+<h2 style="color: #dc2626; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">4. The Formula for Calculating Overall CGPA</h2>
+<p style="font-size: 1rem; line-height: 1.6;">Your Cumulative Grade Point Average (CGPA) is the weighted average of all your semester GPAs. The formula is: (Total Quality Points from ALL Semesters) / (Total Credit Hours from ALL Semesters). To do this manually, you would need to sum up the total quality points and total credit hours from your first semester to your most recent one. As you progress in your degree, this calculation becomes increasingly complex and tedious, making a digital UAF CGPA calculator an essential tool for accuracy.</p>
+</div>
+
+<div style="background-color: #f3e8ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #9333ea;">
+<h2 style="color: #7e22ce; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">5. The Challenge of Manual CGPA Calculation</h2>
+<p style="font-size: 1rem; line-height: 1.6;">Why not just use a simple calculator? Manual calculation is fraught with potential problems. It's easy to make a simple data entry error, forget the exact grade point for a 'B-', or miscalculate the total credit hours. Furthermore, UAF courses often have different credit hours (e.g., 3+1 or 2+1), which complicates things. Recalculating your CGPA every semester, or trying to predict future scenarios, becomes a significant chore. A specialized UAF CGPA calculator eliminates all these risks by providing a structured and validated system for data entry.</p>
+</div>
+
+<div style="background-color: #fef3c7; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #f59e0b;">
+<h2 style="color: #d97706; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">6. Introducing the Advanced UAF CGPA Calculator Tool</h2>
+<p style="font-size: 1rem; line-height: 1.6;">A modern UAF CGPA calculator is a dynamic web tool designed specifically for UAF students. It's more than just a simple form; it's an advanced dashboard for your academic career. It allows you to add multiple semesters, and within each semester, add individual courses with their specific credit hours and earned grades. The tool instantly computes the GPA for each semester and, most importantly, provides your precise, up-to-date overall CGPA in real-time. This instant feedback loop is invaluable for academic monitoring.</p>
+</div>
+
+<div style="background-color: #dbeafe; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #3b82f6;">
+<h2 style="color: #2563eb; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">7. Key Features of a Premium CGPA Calculator</h2>
+<p style="font-size: 1rem; line-height: 1.6;">Premium UAF CGPA calculator tools stand out with advanced features. The most crucial one is the ability to factor in your current CGPA and total completed credit hours. This means you don't have to re-enter all your past semesters. You simply input your current standing, and then add new semesters to see how they will affect your overall CGPA. Other key features include dynamically adding or removing courses and semesters, clear error messaging, and a clean, user-friendly interface that works on both desktop and mobile devices.</p>
+</div>
+
+<div style="background-color: #dcfce7; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #22c55e;">
+<h2 style="color: #16a34a; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">8. Step-by-Step Guide: Using a UAF CGPA Calculator</h2>
+<p style="font-size: 1rem; line-height: 1.6;">Using an advanced UAF CGPA calculator is straightforward. First, locate the optional section for your current academic standing and enter your existing CGPA and total credit hours completed so far. If you are a new student, you can skip this. Next, click "Add Semester" to create your first semester block. Inside this block, click "Add Course" to create rows for each subject. For each row, enter the course's credit hours and select the letter grade you received (or expect to receive) from the dropdown menu. Finally, click the "Calculate" button to see your detailed results.</p>
+</div>
+
+<div style="background-color: #fee2e2; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #ef4444;">
+<h2 style="color: #dc2626; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">9. Strategic Planning with a CGPA Calculator</h2>
+<p style="font-size: 1rem; line-height: 1.6;">The true power of a UAF CGPA calculator lies in future planning. It's a "what-if" scenario tool. You can add a future semester and experiment with potential grades. For example, you can see how getting all 'A' grades in your upcoming semester will boost your CGPA. Conversely, you can determine the minimum grades you need to achieve a specific target CGPA, such as 3.50, for a scholarship. This strategic foresight allows you to set clear, achievable academic goals for yourself.</p>
+</div>
+
+<div style="background-color: #f3e8ff; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #9333ea;">
+<h2 style="color: #7e22ce; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">10. Beyond the Numbers: What Your CGPA Represents</h2>
+<p style="font-size: 1rem; line-height: 1.6;">While a UAF CGPA calculator is a vital tool for managing your academic score, it's important to remember that your CGPA is just one part of your university experience. It reflects your discipline, understanding, and performance in exams. However, your time at UAF is also about gaining practical skills, building networks, and developing your personality. Use the calculator to stay on track and reduce stress, but don't forget to engage in co-curricular activities and real-world learning that will define your future success long after your CGPA is finalized.</p>
+</div>
+
+<div style="background-color: #f3f4f6; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 5px solid #6b7280;">
+<h2 style="color: #4b5563; font-size: 1.75rem; font-weight: 700; margin-bottom: 10px;">Frequently Asked Questions (FAQs)</h2>
+
+<div style="background-color: #ffffff; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+<h3 style="color: #1f2937; font-size: 1.1rem; font-weight: 600;">1. What is the difference between GPA and CGPA?</h3>
+<p style="font-size: 1rem; line-height: 1.6;">GPA (Grade Point Average) is your academic performance for a single semester. CGPA (Cumulative Grade Point Average) is the combined average of your GPAs from all semesters completed so far. A UAF CGPA calculator helps you track both.</p>
+</div>
+
+<div style="background-color: #ffffff; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+<h3 style="color: #1f2937; font-size: 1.1rem; font-weight: 600;">2. What is the minimum CGPA required for a degree at UAF?</h3>
+<p style="font-size: 1rem; line-height: 1.6;">For most undergraduate degrees at UAF, a minimum CGPA of 2.00 is required to graduate. However, this can vary by faculty and program, and higher CGPAs are needed for honors or postgraduate studies. Always check your specific department's requirements.</p>
+</div>
+
+<div style="background-color: #ffffff; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+<h3 style="color: #1f2937; font-size: 1.1rem; font-weight: 600;">3. How does an 'F' grade affect my CGPA?</h3>
+<p style="font-size: 1rem; line-height: 1.6;">An 'F' grade carries 0.00 grade points and significantly lowers your GPA and CGPA. The credit hours for the failed course are still included in the total credit hours, which magnifies its negative impact. You must repeat the course to pass and improve your standing.</p>
+</div>
+
+<div style="background-color: #ffffff; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+<h3 style="color: #1f2937; font-size: 1.1rem; font-weight: 600;">4. How can I improve my CGPA?</h3>
+<p style="font-size: 1rem; line-height: 1.6;">The best way is to score high grades (A's and B's) in upcoming semesters, especially in courses with higher credit hours. You can also repeat courses in which you received low grades (like 'C' or 'D') to replace the old grade with a new, better one, as per UAF policy.</p>
+</div>
+
+<div style="background-color: #ffffff; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+<h3 style="color: #1f2937; font-size: 1.1rem; font-weight: 600;">5. Is a 3.5 CGPA good at UAF?</h3>
+<p style="font-size: 1rem; line-height: 1.6;">Yes, a CGPA of 3.50 or higher is considered excellent at UAF. It typically places you in the top tier of students, makes you eligible for gold medals, honor rolls, and highly competitive scholarships and postgraduate programs.</p>
+</div>
+
+<div style="background-color: #ffffff; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+<h3 style="color: #1f2937; font-size: 1.1rem; font-weight: 600;">6. Can I calculate my CGPA if I have repeated a course?</h3>
+<p style="font-size: 1rem; line-height: 1.6;">Yes. When you repeat a course, the new grade replaces the old one in the CGPA calculation, even if the old grade is still on your transcript. A good UAF CGPA calculator will only use the highest (or most recent, depending on policy) grade for that course in its final calculation.</p>
+</div>
+
+</div>
+
+</div>
